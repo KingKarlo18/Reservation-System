@@ -1,34 +1,39 @@
 import axios from "axios";
 
-export class HotelDetailsService {
+const { SECRET_KEY } = process.env;
+
+export class SearchHotelsService {
   constructor() {}
 
-  async getHotelDetails(
-    _SECRET_KEY: string,
-    hotelId: number,
+  async searchHotels(
+    destId: number,
+    searchType: string,
     arrivalDate: string,
     departureDate: string
   ) {
     const options = {
       method: "GET",
-      url: "https://booking-com15.p.rapidapi.com/api/v1/hotels/getHotelDetails",
+      url: "https://booking-com15.p.rapidapi.com/api/v1/hotels/searchHotels",
       params: {
-        hotel_id: hotelId,
+        dest_id: destId,
+        search_type: searchType,
         arrival_date: arrivalDate,
         departure_date: departureDate,
         adults: "1",
-        children_age: "1,17",
+        children_age: "0",
         room_qty: "1",
+        page_number: "1",
         languagecode: "en-us",
         currency_code: "EUR",
       },
       headers: {
-        "X-RapidAPI-Key": _SECRET_KEY,
+        "X-RapidAPI-Key": SECRET_KEY,
         "X-RapidAPI-Host": "booking-com15.p.rapidapi.com",
       },
     };
 
     const response = await axios.request(options);
+
     return response.data;
   }
 }

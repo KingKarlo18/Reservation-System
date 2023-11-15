@@ -10,7 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/node": "^20.8.10",
-    "axios": "^1.6.0"
+    "axios": "^1.6.0",
+    "mysql": "^2.18.1",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.3.17"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.10"
   }
 }
