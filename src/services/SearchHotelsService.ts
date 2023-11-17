@@ -1,9 +1,12 @@
 import axios from "axios";
+import { GetDestinationService } from "./GetDestinationService";
+import { config } from "dotenv";
 
+config();
 const { SECRET_KEY } = process.env;
 
 export class SearchHotelsService {
-  constructor() {}
+  constructor(private readonly getDestination: GetDestinationService) {}
 
   async searchHotels(
     destId: number,
@@ -35,5 +38,58 @@ export class SearchHotelsService {
     const response = await axios.request(options);
 
     return response.data;
+  }
+
+  async getFirstHotel(
+    destId: number,
+    searchType: string,
+    arrivalDate: string,
+    departureDate: string
+  ) {
+    const hotelAPIs = await this.searchHotels(
+      destId,
+      searchType,
+      arrivalDate,
+      departureDate
+    );
+    const firstHotelAPI = hotelAPIs.data.hotels[0];
+    return firstHotelAPI;
+  }
+
+  async getFirstHotelID(
+    destId: number,
+    searchType: string,
+    arrivalDate: string,
+    departureDate: string
+  ) {
+    const firstHotelAPI = await this.getFirstHotel(
+      destId,
+      searchType,
+      arrivalDate,
+      departureDate
+    );
+
+    const firstHotelID = firstHotelAPI.hotel_id;
+
+    return firstHotelID;
+  }
+
+  async getFirstHotelAccesibilityLabel(
+    destId: number,
+    searchType: string,
+    arrivalDate: string,
+    departureDate: string
+  ) {
+    const firstHotelAPI = await this.getFirstHotel(
+      destId,
+      searchType,
+      arrivalDate,
+      departureDate
+    );
+
+    const firstHotelAccessibilityLabel = firstHotelAPI.accessibilityLabel;
+
+    const parts = firstHotelAccessibilityLabel.split(" \n").filter(Boolean);
+    return parts;
   }
 }

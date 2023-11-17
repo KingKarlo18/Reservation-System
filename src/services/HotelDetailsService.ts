@@ -1,9 +1,13 @@
 import axios from "axios";
+import { config } from "dotenv";
+import { SearchHotelsService } from "./SearchHotelsService";
+
+config();
 
 const { SECRET_KEY } = process.env;
 
 export class HotelDetailsService {
-  constructor() {}
+  constructor(private readonly searchHotels: SearchHotelsService) {}
 
   async getHotelDetails(
     hotelId: number,

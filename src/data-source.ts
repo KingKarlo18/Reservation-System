@@ -13,3 +13,7 @@ export const AppDataSource = new DataSource({
   subscribers: [],
   migrations: [],
 });
+
+export function initializeDataSource(): Promise<DataSource> {
+  return AppDataSource.initialize();
+}
