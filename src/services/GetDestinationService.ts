@@ -49,9 +49,13 @@ export class GetDestinationService {
     const firstDestinationIDAndType = await this.getAllDestinationAPI(
       userInputForDestination
     );
-    return [
-      firstDestinationIDAndType.data[0].dest_id,
-      firstDestinationIDAndType.data[0].search_type,
-    ];
+
+    const destinationID = firstDestinationIDAndType.data[0].dest_id;
+    const destinationSearchType = firstDestinationIDAndType.data[0].search_type;
+
+    return {
+      destinationID,
+      destinationSearchType,
+    };
   }
 }
