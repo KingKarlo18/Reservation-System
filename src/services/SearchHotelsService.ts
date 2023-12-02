@@ -6,7 +6,7 @@ config();
 const { SECRET_KEY } = process.env;
 
 export class SearchHotelsService {
-  constructor(private readonly getDestination: GetDestinationService) {}
+  constructor() {}
 
   async searchHotels(
     destId: number,

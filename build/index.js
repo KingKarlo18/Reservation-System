@@ -8,10 +8,10 @@ const GetHotelReviews_1 = require("./services/GetHotelReviews");
 async function main() {
     // await initializeDataSource();
     const destinationService = new GetDestinationService_1.GetDestinationService();
-    const searchHotelsService = new SearchHotelsService_1.SearchHotelsService(destinationService);
-    const hotelDetailsService = new HotelDetailsService_1.HotelDetailsService(searchHotelsService);
-    const hotelReviewsService = new GetHotelReviews_1.HotelRewievsService(searchHotelsService);
-    const destinationAPI = await destinationService.getFirstDestinationIDAndType("MADRID");
+    const searchHotelsService = new SearchHotelsService_1.SearchHotelsService();
+    const hotelDetailsService = new HotelDetailsService_1.HotelDetailsService();
+    const hotelReviewsService = new GetHotelReviews_1.HotelRewievsService();
+    const destinationAPI = await destinationService.getFirstDestinationIDAndType("Amsterdam");
     console.log("Get Destination API");
     console.log(destinationAPI);
     const searchHotelsAPI = await searchHotelsService.getFirstHotelID(destinationAPI.destinationID, destinationAPI.destinationSearchType, "2023-12-22", "2023-12-30");

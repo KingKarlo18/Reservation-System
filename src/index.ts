@@ -1,5 +1,4 @@
 import "reflect-metadata";
-import { initializeDataSource } from "./data-source";
 import { GetDestinationService } from "./services/GetDestinationService";
 import { SearchHotelsService } from "./services/SearchHotelsService";
 import { HotelDetailsService } from "./services/HotelDetailsService";
@@ -8,11 +7,11 @@ import { HotelRewievsService } from "./services/GetHotelReviews";
 async function main() {
   // await initializeDataSource();
   const destinationService = new GetDestinationService();
-  const searchHotelsService = new SearchHotelsService(destinationService);
-  const hotelDetailsService = new HotelDetailsService(searchHotelsService);
-  const hotelReviewsService = new HotelRewievsService(searchHotelsService);
+  const searchHotelsService = new SearchHotelsService();
+  const hotelDetailsService = new HotelDetailsService();
+  const hotelReviewsService = new HotelRewievsService();
   const destinationAPI = await destinationService.getFirstDestinationIDAndType(
-    "MADRID"
+    "Amsterdam"
   );
   console.log("Get Destination API");
   console.log(destinationAPI);
