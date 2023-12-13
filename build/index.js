@@ -4,13 +4,14 @@ require("reflect-metadata");
 const GetDestinationService_1 = require("./services/GetDestinationService");
 const SearchHotelsService_1 = require("./services/SearchHotelsService");
 const HotelDetailsService_1 = require("./services/HotelDetailsService");
-const GetHotelReviews_1 = require("./services/GetHotelReviews");
+const GetHotelReviewsService_1 = require("./services/GetHotelReviewsService");
+require("./server");
 async function main() {
     // await initializeDataSource();
     const destinationService = new GetDestinationService_1.GetDestinationService();
     const searchHotelsService = new SearchHotelsService_1.SearchHotelsService();
     const hotelDetailsService = new HotelDetailsService_1.HotelDetailsService();
-    const hotelReviewsService = new GetHotelReviews_1.HotelRewievsService();
+    const hotelReviewsService = new GetHotelReviewsService_1.HotelRewievsService();
     const destinationAPI = await destinationService.getFirstDestinationIDAndType("Amsterdam");
     console.log("Get Destination API");
     console.log(destinationAPI);

@@ -1,4 +1,4 @@
-import { IsEmail } from "class-validator";
+import { IsEmail, IsEnum, IsNotEmpty, IsString } from "class-validator";
 import {
   Column,
   Entity,
@@ -22,25 +22,30 @@ export class User {
   id!: number;
 
   @Column()
+  @IsNotEmpty({ message: "First name must not be empty" })
+  @IsString()
   firstName!: string;
 
   @Column()
+  @IsNotEmpty({ message: "Last name must not be empty" })
+  @IsString()
   lastName!: string;
 
   @Column()
-  @IsEmail()
+  @IsEmail({}, { message: "Invalid email format" })
   email!: string;
 
   @Column()
+  @IsEnum(ROLE, { message: "Invalid role" })
   role!: ROLE;
 
   @OneToMany(() => Reservation, (reservation) => reservation.user)
-  reservations?: Reservation[]; // Veza s rezervacijama
+  reservations?: Reservation[];
 
   @OneToMany(() => Review, (review) => review.user)
-  reviews?: Review[]; // Veza s recenzijama
+  reviews?: Review[];
 
   @ManyToMany(() => Accommodation, { cascade: true })
   @JoinTable()
-  reservedAccommodations?: Accommodation[]; // Smještaji koje je korisnik rezervirao
+  reservedAccommodations?: Accommodation[];
 }

@@ -2,7 +2,13 @@ import "reflect-metadata";
 import { GetDestinationService } from "./services/GetDestinationService";
 import { SearchHotelsService } from "./services/SearchHotelsService";
 import { HotelDetailsService } from "./services/HotelDetailsService";
-import { HotelRewievsService } from "./services/GetHotelReviews";
+import { HotelRewievsService } from "./services/GetHotelReviewsService";
+import { app, PORT } from "./server";
+import "./routes";
+
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
+});
 
 async function main() {
   // await initializeDataSource();
