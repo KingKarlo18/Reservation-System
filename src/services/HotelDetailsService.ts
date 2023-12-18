@@ -97,11 +97,15 @@ export class HotelDetailsService {
     };
   }
 
-  calculateNights(departureDate: string, arrivalDate: string): number | null {
+  private calculateNights(
+    departureDate: string,
+    arrivalDate: string
+  ): number | null {
     const departure = new Date(departureDate);
     const arrival = new Date(arrivalDate);
 
     if (isNaN(departure.getTime()) || isNaN(arrival.getTime())) {
+      console.log("Error with calculating stay duration");
       return null;
     }
 

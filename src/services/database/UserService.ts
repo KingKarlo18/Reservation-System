@@ -1,6 +1,6 @@
 import { Repository } from "typeorm";
 import { User } from "../../entities/user";
-
+import util from "util";
 export class UserService {
   constructor(private readonly userRepo: Repository<User>) {}
 
@@ -26,7 +26,7 @@ export class UserService {
     });
 
     if (!userData) {
-      throw new Error("Error with finding user data");
+      throw new Error("User not found");
     }
 
     return userData;
@@ -58,8 +58,18 @@ export class UserService {
       },
     });
     if (!userData) {
-      throw new Error("Error with finding user data");
+      throw new Error(`User with id: ${userId} not found`);
     }
     return userData;
+  }
+
+  async allUsers() {
+    const users = await this.userRepo.find();
+
+    if (!users || users.length === 0) {
+      throw new Error("Users not found");
+    }
+
+    return users;
   }
 }

@@ -2,7 +2,6 @@ import { Repository } from "typeorm/repository/Repository";
 import { Review } from "../../entities/review";
 import { Reservation } from "../../entities/reservation";
 import { User } from "../../entities/user";
-import { AccommodationService } from "./AccommodationService";
 import { UserService } from "./UserService";
 import { Accommodation } from "../../entities/accommodation";
 import { ReservationService } from "./ReservationService";

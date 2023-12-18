@@ -1,19 +1,27 @@
 import { DataSource } from "typeorm";
+import { User } from "./entities/user";
+import { Review } from "./entities/review";
+import { Accommodation } from "./entities/accommodation";
+import { Reservation } from "./entities/reservation";
 
 export const AppDataSource = new DataSource({
-  type: "mysql",
-  host: "localhost",
-  port: 3306,
-  username: "test",
-  password: "test",
-  database: "test",
+  type: "sqlite",
+  database: "./main.sqlite",
   synchronize: true,
   logging: true,
-  entities: [],
+  entities: [Reservation, Accommodation, User, Review],
   subscribers: [],
   migrations: [],
 });
 
+AppDataSource.initialize()
+  .then(() => {
+    console.log("VALJDA RADI BAZA");
+  })
+  .catch((error) => console.log(error));
+
 export function initializeDataSource(): Promise<DataSource> {
   return AppDataSource.initialize();
 }
+
+export default AppDataSource;

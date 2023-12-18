@@ -12,7 +12,7 @@ export class GetDestinationService {
     const options = {
       method: "GET",
       url: "https://booking-com15.p.rapidapi.com/api/v1/hotels/searchDestination",
-      params: { query: userInputForDestination },
+      params: userInputForDestination,
       headers: {
         "X-RapidAPI-Key": SECRET_KEY,
         "X-RapidAPI-Host": "booking-com15.p.rapidapi.com",

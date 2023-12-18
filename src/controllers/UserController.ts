@@ -2,13 +2,15 @@ import { validate } from "class-validator";
 import { plainToClass } from "class-transformer";
 import { User } from "../entities/user";
 import { UserService } from "../services/database/UserService";
-import { Response } from "express";
+import { Request, Response } from "express";
+import util from "util";
 
 export class UserController {
   constructor(private userService: UserService) {}
 
   async createUser(req: Request, res: Response) {
     try {
+      const userReal = req.body as any;
       const user: User = plainToClass(User, req.body);
       const errors = await validate(user);
 
@@ -22,7 +24,7 @@ export class UserController {
       res.status(201).json({ message: "User created successfully" });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: "Internal Server Error" });
+      res.status(500).json({ error: "Internal Server Error Kod kreiranja" });
     }
   }
 
@@ -54,14 +56,20 @@ export class UserController {
 
   async findUserById(req: Request, res: Response) {
     try {
-      const request = req.body as any;
+      let userId: number;
 
-      if (!request) {
-        res.status(400).json({ message: "ID is required in the request body" });
+      if (req.params.id) {
+        userId = parseInt(req.params.id);
+      } else {
+        res.status(400).json({ message: "ID is required in the params" });
         return;
       }
 
-      const userId: number = request.id;
+      const request = req.body as any;
+
+      if (!request && request.id) {
+        userId = request.id;
+      }
 
       const foundUser = await this.userService.findUserById(userId);
 
@@ -82,7 +90,9 @@ export class UserController {
   async updateUserData(req: Request, res: Response) {
     try {
       const body = req.body as any;
-      const userId: number = body.oldUser.id;
+
+      const paramId: number = parseInt(req.params.id);
+
       const oldUser: User = plainToClass(User, body.oldUser);
       const newUserData: User = plainToClass(User, body.newUserData);
 
@@ -97,6 +107,11 @@ export class UserController {
         return;
       }
 
+      if (body.id && body.id !== paramId) {
+        res.status(400).json({ error: "ID mismatch between body and params" });
+        return;
+      }
+
       const updatedUser = await this.userService.updateUserData(
         oldUser,
         newUserData
@@ -107,6 +122,24 @@ export class UserController {
         .json({ user: updatedUser, message: "User updated successfully" });
     } catch (error) {
       console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+
+  async allUsers(req: Request, res: Response) {
+    try {
+      const allUsers = await this.userService.allUsers();
+
+      if (!allUsers) {
+        res.status(404).json({ message: "There are no users" });
+        return;
+      }
+
+      res
+        .status(201)
+        .json({ user: allUsers, message: "Users found successfully" });
+    } catch (error) {
+      console.log(error);
       res.status(500).json({ error: "Internal Server Error" });
     }
   }

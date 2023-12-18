@@ -21,22 +21,22 @@ export class User {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
   @IsNotEmpty({ message: "First name must not be empty" })
   @IsString()
+  @Column()
   firstName!: string;
 
-  @Column()
   @IsNotEmpty({ message: "Last name must not be empty" })
   @IsString()
+  @Column()
   lastName!: string;
 
-  @Column()
   @IsEmail({}, { message: "Invalid email format" })
+  @Column()
   email!: string;
 
-  @Column()
   @IsEnum(ROLE, { message: "Invalid role" })
+  @Column()
   role!: ROLE;
 
   @OneToMany(() => Reservation, (reservation) => reservation.user)
