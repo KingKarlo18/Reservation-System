@@ -54,4 +54,56 @@ export class ReviewService {
 
     return review;
   }
+
+  async getAllReviewsForAccommodation(accommodationId: number) {
+    const accommodation = await this.accommodationRepo.findOne({
+      where: {
+        id: accommodationId,
+      },
+    });
+
+    if (!accommodation) {
+      throw new Error(
+        `Accommodation with ID ${accommodationId} does not exist}`
+      );
+    }
+
+    const reviews = await this.reviewRepo.find({
+      where: {
+        accommodation: accommodation,
+      },
+    });
+
+    if (!reviews) {
+      console.log(
+        `There are no reviews for accommodation with id: ${accommodationId}`
+      );
+    }
+
+    return reviews;
+  }
+
+  async getAllUserReviews(userId: number) {
+    const user = await this.userRepo.findOne({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!user) {
+      throw new Error(`User with ID ${userId} does not exist}`);
+    }
+
+    const reviews = await this.reviewRepo.find({
+      where: {
+        user: user,
+      },
+    });
+
+    if (!reviews) {
+      console.log(`There are no reviews for user with id: ${userId}`);
+    }
+
+    return reviews;
+  }
 }

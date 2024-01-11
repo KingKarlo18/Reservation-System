@@ -1,6 +1,6 @@
 import { Repository } from "typeorm";
 import { User } from "../../entities/user";
-import util from "util";
+
 export class UserService {
   constructor(private readonly userRepo: Repository<User>) {}
 
@@ -12,7 +12,11 @@ export class UserService {
       role: user.role,
     });
 
-    await this.userRepo.save(userData);
+    if ((await this.checkExistenceOfUser(user.email)) == true) {
+      throw new Error(`User with email: ${user.email} already exist`);
+    } else {
+      await this.userRepo.save(userData);
+    }
   }
 
   async findUser(user: User) {
@@ -71,5 +75,29 @@ export class UserService {
     }
 
     return users;
+  }
+
+  async login(userEmail: string) {
+    const userData = await this.userRepo.findOne({
+      where: {
+        email: userEmail,
+      },
+    });
+    if (!userData) {
+      throw new Error(`User with email: ${userEmail} not found`);
+    }
+    return userData;
+  }
+
+  private async checkExistenceOfUser(userEmail: string) {
+    const user = await this.userRepo.findOne({
+      where: {
+        email: userEmail,
+      },
+    });
+    if (!user) {
+      return false;
+    }
+    return true;
   }
 }

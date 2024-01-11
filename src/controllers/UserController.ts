@@ -3,7 +3,7 @@ import { plainToClass } from "class-transformer";
 import { User } from "../entities/user";
 import { UserService } from "../services/database/UserService";
 import { Request, Response } from "express";
-import util from "util";
+import jwt from "jsonwebtoken";
 
 export class UserController {
   constructor(private userService: UserService) {}
@@ -24,7 +24,7 @@ export class UserController {
       res.status(201).json({ message: "User created successfully" });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: "Internal Server Error Kod kreiranja" });
+      res.status(500).json({ error: "Internal Server Error" });
     }
   }
 
@@ -58,18 +58,32 @@ export class UserController {
     try {
       let userId: number;
 
-      if (req.params.id) {
-        userId = parseInt(req.params.id);
+      const params = req.params;
+
+      if (params.id) {
+        userId = parseInt(params.id);
       } else {
         res.status(400).json({ message: "ID is required in the params" });
         return;
       }
 
-      const request = req.body as any;
+      const body = req.body as any;
 
-      if (!request && request.id) {
-        userId = request.id;
+      if (!body.userId) {
+        res.status(400).json({
+          message: "User Id in body not found",
+        });
+        return;
       }
+
+      if (parseInt(body.userId) != parseInt(params.id)) {
+        res.status(400).json({
+          message: "ID mismatch between body and params",
+        });
+        return;
+      }
+
+      userId = body.userId;
 
       const foundUser = await this.userService.findUserById(userId);
 
@@ -141,6 +155,32 @@ export class UserController {
     } catch (error) {
       console.log(error);
       res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+
+  async login(req: Request, res: Response) {
+    try {
+      const email = req.body.email;
+      const user = await this.userService.login(email);
+
+      if (!user) {
+        res.status(404).json({ message: "There are no users with that email" });
+        return;
+      }
+
+      const accessToken = jwt.sign(
+        { user },
+        process.env.ACCESS_TOKEN_SECRET || "123"
+      );
+
+      res.status(201).json({
+        user: user,
+        token: accessToken,
+        message: "Users found successfully",
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: "Internal Server Error While Loging" });
     }
   }
 }

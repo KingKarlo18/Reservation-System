@@ -115,7 +115,7 @@ export class HotelReviewsController {
         hotelId = body.id;
       } else {
         res.status(400).json({
-          message: "Id in params and hotelId in body are not the same",
+          message: "ID mismatch between body and params",
         });
         return;
       }
@@ -162,7 +162,7 @@ export class HotelReviewsController {
         hotelId = body.id;
       } else {
         res.status(400).json({
-          message: "Id in params and hotelId in body are not the same",
+          message: "ID mismatch between body and params",
         });
         return;
       }

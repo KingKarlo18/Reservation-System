@@ -1,13 +1,7 @@
 import "reflect-metadata";
-import { GetDestinationService } from "./services/GetDestinationService";
-import { SearchHotelsService } from "./services/SearchHotelsService";
-import { HotelDetailsService } from "./services/HotelDetailsService";
-import { HotelReviewsService } from "./services/GetHotelReviewsService";
 import express from "express";
 import { config } from "dotenv";
 import indexRouter from "./routes/indexRoutes";
-import { DataSource } from "typeorm";
-import { User } from "./entities/user";
 
 config();
 

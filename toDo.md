@@ -1,19 +1,9 @@
-# Get all Apis needed form RapidApi
+# Postaviti review routes ---- { "DONE" }
 
-- Get api for place where you want to search for hotel
-- Get api for hotels in one area (search hotels)
-- Get api for hotel details
+# Odraditi validaciju acommodation, reservation i review entiteta ---- { "DONE" }
 
-# Allow client to input wanted data
+# Provjeriti jesi li zadovoljan sa rutama i treba li na neke rute postaviti drugačije upite recimo prilikom pretraživanja smještaja koje podatke želiš da dobiješ
 
-Get Destination
+# Postaviti autorizaciju i autentikaciju usera ---- { "DONE" }
 
-- Get query <from User> (City or Country name)
-
-Search Hotels
-
-- Get dest_id <from Get Destination API>, search_type <from Get Destination API>, arrival_date <from User> [yyyy-mm-dd], departure_date <from User> [yyyy-mm-dd]
-
-Get Hotel Details
-
-- Get hotel_id <from SearchHotel API>, arrival_date <from User> [yyyy-mm-dd], departure_date <from User> [yyyy-mm-dd]
+# Odraditi mali react interface
